@@ -31,8 +31,16 @@ public class SoldierActionSystem : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             if(TryHandleSoldierSelection()) return;
-            selectedSoldier.Move(MouseWorld.GetPosition());
+
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
+            if(selectedSoldier.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
+            {
+                selectedSoldier.GetMoveAction().Move(mouseGridPosition);
+            }
         }    
+
+        
     }
 
     //selects a soldier when a player clicks on them

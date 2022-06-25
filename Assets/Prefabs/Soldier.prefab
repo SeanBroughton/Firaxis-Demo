@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 8415751047658695639}
   - component: {fileID: 8415751047658695638}
   - component: {fileID: 4572628582485320780}
+  - component: {fileID: 66821688434521680}
   m_Layer: 7
   m_Name: Soldier
   m_TagString: Untagged
@@ -144,7 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d525e9b55542146bd2828cd8033535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soldierAnimator: {fileID: 8475366718953637385}
 --- !u!65 &4572628582485320780
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -158,6 +158,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.45501775, y: 1.7616417, z: 0.42242843}
   m_Center: {x: -0.01884222, y: 0.8131341, z: -0.026988536}
+--- !u!114 &66821688434521680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415751047658695637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f57ff2198a334ea409b6341e2fb325d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soldierAnimator: {fileID: 8475366718953637385}
 --- !u!1001 &8415751046801860689
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -42,4 +42,9 @@ public class GridObject
         return soldierList;
     }
 
+    public bool HasAnySoldier()
+    {
+        return soldierList.Count > 0;
+    }
+
 }

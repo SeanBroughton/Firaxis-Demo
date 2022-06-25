@@ -5,6 +5,8 @@ using UnityEngine;
 public class Testing : MonoBehaviour
 {
     
+    [SerializeField] private Soldier soldier;
+
     private void Start()
     {
 
@@ -13,6 +15,12 @@ public class Testing : MonoBehaviour
     
     private void Update() 
     {
-        
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            GridSystemVisual.Instance.HideAllGridPosition();
+            GridSystemVisual.Instance.ShowGridPositionList(
+                soldier.GetMoveAction().GetValidActionGridPositionList());
+            
+        }
     }
 }
