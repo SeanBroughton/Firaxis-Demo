@@ -1,34 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class MoveAction : MonoBehaviour
+public class MoveAction : BaseAction
 {
     private Vector3 targetPosition;
-    private Soldier soldier;
+   
     [SerializeField] private Animator soldierAnimator;
     [SerializeField] private int maxMoveDistance = 4;
 
     //keeps Soldier from overlapping
-    private void Awake() 
+    protected override void Awake() 
     {
-        soldier = GetComponent<Soldier>();
+        base.Awake();
         targetPosition = transform.position;
     }
 
     private void Update() 
     {
+        if(!isActive)
+        {
+            return;
+        }
         
     //stopping distance stabilizes the soldier when moving and stopping at the new location
+        
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
+        
         float stoppingDistance = .1f;
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
             float moveSpeed = 4f;
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
-    //rotates the soldier to face moving direction
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 
     //animates the soldier's moving
             soldierAnimator.SetBool("IsWalking", true);
@@ -36,15 +40,22 @@ public class MoveAction : MonoBehaviour
         else
         {
             soldierAnimator.SetBool("IsWalking", false);
+            isActive = false;
+            onActionComplete();
         }
 
-        
+         //rotates the soldier to face moving direction
+            float rotateSpeed = 10f;
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
     }
 
     //creates the ability to move the soldier
-    public void Move(GridPosition gridPosition)
+    public void Move(GridPosition gridPosition, Action onActionComplete)
     {
+        this.onActionComplete = onActionComplete;
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        isActive = true;
     }
 
     public bool IsValidActionGridPosition(GridPosition gridPosition)

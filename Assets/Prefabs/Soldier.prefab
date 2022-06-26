@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 8415751047658695638}
   - component: {fileID: 4572628582485320780}
   - component: {fileID: 66821688434521680}
+  - component: {fileID: 3903978243806896863}
   m_Layer: 7
   m_Name: Soldier
   m_TagString: Untagged
@@ -171,6 +172,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soldierAnimator: {fileID: 8475366718953637385}
+  maxMoveDistance: 4
+--- !u!114 &3903978243806896863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415751047658695637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae87c5a1fb0f1364b82443259eee1251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8415751046801860689
 PrefabInstance:
   m_ObjectHideFlags: 0

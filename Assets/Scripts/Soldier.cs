@@ -7,11 +7,13 @@ public class Soldier : MonoBehaviour
     
     private GridPosition gridPosition;
     private MoveAction moveAction;
+    private SpinAction spinAction;
 
 
     private void Awake()
     {
         moveAction = GetComponent<MoveAction>();
+        spinAction = GetComponent<SpinAction>();
     }
 
     //uses the level grid to accurately mark the position of the soldier in the level
@@ -38,6 +40,11 @@ public class Soldier : MonoBehaviour
     public MoveAction GetMoveAction()
     {
         return moveAction;
+    }
+
+    public SpinAction GetSpinAction()
+    {
+        return spinAction;
     }
 
     public GridPosition GetGridPosition()
