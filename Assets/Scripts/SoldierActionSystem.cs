@@ -9,6 +9,8 @@ public class SoldierActionSystem : MonoBehaviour
   
     public static SoldierActionSystem Instance {get; private set;}
     public event EventHandler OnSelectedSoldierChange;
+    public event EventHandler OnSelectedActionChange;
+    public event EventHandler<bool> OnBusyChange;
     [SerializeField] private Soldier selectedSoldier;
     [SerializeField] private LayerMask soldierLayerMask;
 
@@ -79,11 +81,13 @@ public class SoldierActionSystem : MonoBehaviour
     private void SetBusy()
     {
         isBusy = true;
+        OnBusyChange?.Invoke(this, isBusy);
     }
 
     private void ClearBusy()
     {
         isBusy = false;
+        OnBusyChange?.Invoke(this, isBusy);
     }
 
     //selects a soldier when a player clicks on them
@@ -122,6 +126,8 @@ public class SoldierActionSystem : MonoBehaviour
     public void SetSelectedAction(BaseAction baseAction)
     {
         selectedAction = baseAction;
+
+        OnSelectedActionChange?.Invoke(this, EventArgs.Empty);
     }
 
     //gets the soldier the player has selected and sends a message to the selection circle
