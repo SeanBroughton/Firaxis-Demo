@@ -72,10 +72,10 @@ public class GridSystemVisual : MonoBehaviour
     {
         HideAllGridPosition();
 
-        Soldier selectedSoldier = SoldierActionSystem.Instance.GetSelectedSoldier();
+        BaseAction selectedAction = SoldierActionSystem.Instance.GetSelectedAction();
 
         ShowGridPositionList(
-           selectedSoldier.GetMoveAction().GetValidActionGridPositionList());
+           selectedAction.GetValidActionGridPositionList());
     }
 
 }

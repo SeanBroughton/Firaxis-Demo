@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SoldierActionSystem : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class SoldierActionSystem : MonoBehaviour
     [SerializeField] private Soldier selectedSoldier;
     [SerializeField] private LayerMask soldierLayerMask;
 
+    private BaseAction selectedAction;
     private bool isBusy;
 
     //singleton made to check for more than one SoldierActionSystem
@@ -27,6 +29,11 @@ public class SoldierActionSystem : MonoBehaviour
         Instance = this;
     }
 
+    private void Start() 
+    {
+        SetSelectedSoldier(selectedSoldier);
+    }
+
     private void Update() 
     {
         //when the player clicks the right mouse button, it moves the soldier
@@ -37,24 +44,36 @@ public class SoldierActionSystem : MonoBehaviour
                 return;
             }
 
-            if(TryHandleSoldierSelection()) return;
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+
+            if(TryHandleSoldierSelection())
+            {
+                return;
+            }
+            
+
+            HandleSelectedAction();
+        }
+
+    }
+
+    private void HandleSelectedAction()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
 
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
-            if(selectedSoldier.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
+            if(selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
                 SetBusy();
-                selectedSoldier.GetMoveAction().Move(mouseGridPosition, ClearBusy);
+               selectedAction.TakeAction(mouseGridPosition, ClearBusy);
             }
-        }    
-
-        if(Input.GetMouseButtonDown(1))
-        {
-            SetBusy();
-            selectedSoldier.GetSpinAction().Spin(ClearBusy);
+            
         }
-
-        
     }
 
     private void SetBusy()
@@ -75,7 +94,13 @@ public class SoldierActionSystem : MonoBehaviour
         {
             if(raycastHit.transform.TryGetComponent<Soldier>(out Soldier soldier))
             {
-                selectedSoldier = soldier;
+
+                if(soldier == selectedSoldier)
+                {
+                    //soldier is already selected
+                    return false;
+                }
+
                 SetSelectedSoldier(soldier);
                 return true;
             }
@@ -89,13 +114,25 @@ public class SoldierActionSystem : MonoBehaviour
     {
         selectedSoldier = soldier;
 
+        SetSelectedAction(soldier.GetMoveAction());
+
         OnSelectedSoldierChange?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SetSelectedAction(BaseAction baseAction)
+    {
+        selectedAction = baseAction;
     }
 
     //gets the soldier the player has selected and sends a message to the selection circle
     public Soldier GetSelectedSoldier()
     {
         return selectedSoldier;
+    }
+
+    public BaseAction GetSelectedAction()
+    {
+        return selectedAction;
     }
 
 }
