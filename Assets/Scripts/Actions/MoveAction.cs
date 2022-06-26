@@ -6,8 +6,9 @@ using System;
 public class MoveAction : BaseAction
 {
     private Vector3 targetPosition;
-   
-    [SerializeField] private Animator soldierAnimator;
+
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
     [SerializeField] private int maxMoveDistance = 4;
 
     //keeps Soldier from overlapping
@@ -33,14 +34,11 @@ public class MoveAction : BaseAction
         {
             float moveSpeed = 4f;
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-    //animates the soldier's moving
-            soldierAnimator.SetBool("IsWalking", true);
         }
         else
-        {
-            soldierAnimator.SetBool("IsWalking", false);
-           
+        {  
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
+
             ActionComplete();
 
         }
@@ -57,6 +55,8 @@ public class MoveAction : BaseAction
         ActionStart(onActionComplete);
 
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()

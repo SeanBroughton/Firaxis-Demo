@@ -6,6 +6,14 @@ using UnityEngine;
 public class ShootAction : BaseAction
 {
 
+    public event EventHandler<OnShootEventArgs> OnShoot;
+
+    public class OnShootEventArgs : EventArgs
+    {
+        public Soldier targetSoldier;
+        public Soldier shootingSoldier;
+    }
+
     private enum State
     {
         Aiming,
@@ -73,6 +81,11 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
+        OnShoot?.Invoke(this, new OnShootEventArgs {
+            targetSoldier = targetSoldier,
+            shootingSoldier = soldier
+        });
+
         targetSoldier.Damage();
     }
 
