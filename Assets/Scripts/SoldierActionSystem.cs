@@ -47,6 +47,11 @@ public class SoldierActionSystem : MonoBehaviour
                 return;
             }
 
+            if(!TurnSystem.Instance.IsPlayerTurn())
+            {
+                return;
+            }
+
             if (EventSystem.current.IsPointerOverGameObject())
             {
                 return;
@@ -110,6 +115,12 @@ public class SoldierActionSystem : MonoBehaviour
                 if(soldier == selectedSoldier)
                 {
                     //soldier is already selected
+                    return false;
+                }
+
+                if(soldier.IsEnemy())
+                {
+                    //clicked on a enemy soldier
                     return false;
                 }
 

@@ -25,6 +25,8 @@ public class SoldierActionSystemUI : MonoBehaviour
         SoldierActionSystem.Instance.OnSelectedSoldierChange += SoldierActionSystem_OnSelectedSoldierChange;
         SoldierActionSystem.Instance.OnSelectedActionChange += SoldierActionSystem_OnSelectedSoldierChange;
         SoldierActionSystem.Instance.OnActionStarted += SoldierActionSystem_OnActionStarted;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        Soldier.OnAnyActionPointsChange += Soldier_OnAnyActionPointsChange;
 
         UpdateActionPoints();
         CreateSoldierActionButtons();
@@ -83,6 +85,16 @@ public class SoldierActionSystemUI : MonoBehaviour
         Soldier selectedSoldier =  SoldierActionSystem.Instance.GetSelectedSoldier();
         
         actionPointsText.text = "Action Points: " + selectedSoldier.GetActonPoints();
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        UpdateActionPoints();
+    }
+
+    private void Soldier_OnAnyActionPointsChange( object sender, EventArgs e)
+    {
+        UpdateActionPoints();
     }
 
 }
