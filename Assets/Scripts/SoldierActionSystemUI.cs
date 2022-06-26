@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class SoldierActionSystemUI : MonoBehaviour
 {
 
     [SerializeField] private Transform actionButtonPrefab;
     [SerializeField] private Transform actionButtonContainerTransform;
+    [SerializeField] private TextMeshProUGUI actionPointsText;
 
     private List<ActionButtonUI> actionButtonUIList;
 
@@ -22,7 +24,9 @@ public class SoldierActionSystemUI : MonoBehaviour
     {
         SoldierActionSystem.Instance.OnSelectedSoldierChange += SoldierActionSystem_OnSelectedSoldierChange;
         SoldierActionSystem.Instance.OnSelectedActionChange += SoldierActionSystem_OnSelectedSoldierChange;
+        SoldierActionSystem.Instance.OnActionStarted += SoldierActionSystem_OnActionStarted;
 
+        UpdateActionPoints();
         CreateSoldierActionButtons();
         UpdateSelectedVisual();
     }
@@ -53,11 +57,17 @@ public class SoldierActionSystemUI : MonoBehaviour
     {
         CreateSoldierActionButtons();
         UpdateSelectedVisual();
+        UpdateActionPoints();
     }
 
     private void SoldierActionSystem_OnSelectedActionChange(object sender, EventArgs e)
     {
         UpdateSelectedVisual();
+    }
+
+    private void SoldierActionSystem_OnActionStarted(object sender, EventArgs e)
+    {
+        UpdateActionPoints();
     }
 
     private void UpdateSelectedVisual()
@@ -66,6 +76,13 @@ public class SoldierActionSystemUI : MonoBehaviour
         {
             actionButtonUI.UpdateSelectedVisual();
         }
+    }
+
+    private void UpdateActionPoints()
+    {
+        Soldier selectedSoldier =  SoldierActionSystem.Instance.GetSelectedSoldier();
+        
+        actionPointsText.text = "Action Points: " + selectedSoldier.GetActonPoints();
     }
 
 }

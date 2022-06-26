@@ -11,6 +11,7 @@ public class SoldierActionSystem : MonoBehaviour
     public event EventHandler OnSelectedSoldierChange;
     public event EventHandler OnSelectedActionChange;
     public event EventHandler<bool> OnBusyChange;
+    public event EventHandler OnActionStarted;
     [SerializeField] private Soldier selectedSoldier;
     [SerializeField] private LayerMask soldierLayerMask;
 
@@ -69,12 +70,19 @@ public class SoldierActionSystem : MonoBehaviour
 
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
-            if(selectedAction.IsValidActionGridPosition(mouseGridPosition))
+            if(!selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
-                SetBusy();
-               selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                return;
             }
-            
+            if(!selectedSoldier.TrySpendActionPointsToTakeAction(selectedAction))
+            {
+                return;
+            }
+
+            SetBusy();
+            selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                
+            OnActionStarted?.Invoke(this, EventArgs.Empty);
         }
     }
 
