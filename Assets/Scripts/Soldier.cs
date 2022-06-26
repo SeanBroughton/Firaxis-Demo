@@ -61,6 +61,11 @@ public class Soldier : MonoBehaviour
         return gridPosition;
     }
 
+    public Vector3 GetWorldPosition()
+    {
+        return transform.position;
+    }
+
     public BaseAction[] GetBaseActionArray()
     {
         return baseActionArray;
@@ -119,6 +124,11 @@ public class Soldier : MonoBehaviour
     public bool IsEnemy()
     {
         return isEnemy;
+    }
+
+    public void Damage()
+    {
+        Debug.Log(transform + "damaged!");
     }
 
 }

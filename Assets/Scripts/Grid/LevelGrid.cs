@@ -69,4 +69,10 @@ public class LevelGrid : MonoBehaviour
         return gridObject.HasAnySoldier();
     }
 
+    public Soldier GetSoldierAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.GetSoldier();
+    }
+
 }

@@ -40,8 +40,9 @@ public class MoveAction : BaseAction
         else
         {
             soldierAnimator.SetBool("IsWalking", false);
-            isActive = false;
-            onActionComplete();
+           
+            ActionComplete();
+
         }
 
          //rotates the soldier to face moving direction
@@ -53,9 +54,9 @@ public class MoveAction : BaseAction
     //creates the ability to move the soldier
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        this.onActionComplete = onActionComplete;
+        ActionStart(onActionComplete);
+
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        isActive = true;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -89,7 +90,6 @@ public class MoveAction : BaseAction
                 }
 
                 validGridPositionList.Add(testGridPosition);
-                Debug.Log(testGridPosition);
             }
         }
 

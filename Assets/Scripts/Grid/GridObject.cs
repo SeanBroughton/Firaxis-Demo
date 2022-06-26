@@ -47,4 +47,16 @@ public class GridObject
         return soldierList.Count > 0;
     }
 
+    public Soldier GetSoldier()
+    {
+        if(HasAnySoldier())
+        {
+            return soldierList[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
 }
