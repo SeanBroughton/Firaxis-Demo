@@ -15,6 +15,7 @@ public class Soldier : MonoBehaviour
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private ShootAction shootAction;
     private BaseAction[] baseActionArray;
     private int actionPoints = ACTION_POINTS_MAX;
     private HealthSystem healthSystem;
@@ -25,6 +26,7 @@ public class Soldier : MonoBehaviour
         healthSystem = GetComponent<HealthSystem>();
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
+        shootAction = GetComponent<ShootAction>();
         baseActionArray = GetComponents<BaseAction>();
     }
 
@@ -65,6 +67,11 @@ public class Soldier : MonoBehaviour
     public SpinAction GetSpinAction()
     {
         return spinAction;
+    }
+
+    public ShootAction GetShootAction()
+    {
+        return shootAction;
     }
 
     public GridPosition GetGridPosition()
@@ -150,6 +157,11 @@ public class Soldier : MonoBehaviour
 
         OnAnySoldierDead?.Invoke(this, EventArgs.Empty);
 
+    }
+
+    public float GetHealthNormalized()
+    {
+        return healthSystem.GetHealthNormalized();
     }
 
 }
