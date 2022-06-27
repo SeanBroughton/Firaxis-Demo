@@ -9,6 +9,9 @@ public class Soldier : MonoBehaviour
     [SerializeField] private bool isEnemy;
     private const int ACTION_POINTS_MAX = 2;
     public static event EventHandler OnAnyActionPointsChange;
+    public static event EventHandler OnAnySoldierSpawned;
+    public static event EventHandler OnAnySoldierDead;
+
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private SpinAction spinAction;
@@ -34,6 +37,8 @@ public class Soldier : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
 
         healthSystem.OnDead += HealthSystem_OnDead;
+
+        OnAnySoldierSpawned?.Invoke(this, EventArgs.Empty);
 
     }
 
@@ -142,6 +147,9 @@ public class Soldier : MonoBehaviour
         LevelGrid.Instance.RemoveSoldierAtGridPosition(gridPosition, this);
 
         Destroy(gameObject);
+
+        OnAnySoldierDead?.Invoke(this, EventArgs.Empty);
+
     }
 
 }
