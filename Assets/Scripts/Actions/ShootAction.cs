@@ -143,8 +143,6 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        ActionStart(onActionComplete);
-
         targetSoldier = LevelGrid.Instance.GetSoldierAtGridPosition(gridPosition);
 
         state = State.Aiming;
@@ -153,5 +151,13 @@ public class ShootAction : BaseAction
 
         canShootBullet = true;
 
+        ActionStart(onActionComplete);
     }
+
+    public Soldier GetTargetSoldier()
+    {
+        return targetSoldier;
+    }
+
+
 }
