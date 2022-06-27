@@ -44,4 +44,9 @@ public class SoldierSelectedVisual : MonoBehaviour
         }
     }
 
+    private void OnDestroy() 
+    {
+        SoldierActionSystem.Instance.OnSelectedSoldierChange -= SoldierActionSystem_OnSelectedSoldierChange;
+    }
+
 }

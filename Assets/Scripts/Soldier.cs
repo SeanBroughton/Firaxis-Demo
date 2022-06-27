@@ -14,10 +14,12 @@ public class Soldier : MonoBehaviour
     private SpinAction spinAction;
     private BaseAction[] baseActionArray;
     private int actionPoints = ACTION_POINTS_MAX;
+    private HealthSystem healthSystem;
 
 
     private void Awake()
     {
+        healthSystem = GetComponent<HealthSystem>();
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
@@ -30,6 +32,9 @@ public class Soldier : MonoBehaviour
         LevelGrid.Instance.AddSoldierAtGridPosition(gridPosition, this);
 
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+
+        healthSystem.OnDead += HealthSystem_OnDead;
+
     }
 
     private void Update() 
@@ -126,9 +131,16 @@ public class Soldier : MonoBehaviour
         return isEnemy;
     }
 
-    public void Damage()
+    public void Damage(int damageAmount)
     {
-        Debug.Log(transform + "damaged!");
+        healthSystem.Damage(damageAmount);
+    }
+
+    private void HealthSystem_OnDead(object sender, EventArgs e)
+    {
+        LevelGrid.Instance.RemoveSoldierAtGridPosition(gridPosition, this);
+
+        Destroy(gameObject);
     }
 
 }

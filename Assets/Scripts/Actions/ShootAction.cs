@@ -86,7 +86,7 @@ public class ShootAction : BaseAction
             shootingSoldier = soldier
         });
 
-        targetSoldier.Damage();
+        targetSoldier.Damage(40);
     }
 
     public override string GetActionName()

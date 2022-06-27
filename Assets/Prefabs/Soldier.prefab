@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 3903978243806896863}
   - component: {fileID: 2862998400248507230}
   - component: {fileID: 2896303151223166500}
+  - component: {fileID: 9192464485554707924}
   m_Layer: 7
   m_Name: Soldier
   m_TagString: Untagged
@@ -246,6 +247,18 @@ MonoBehaviour:
   bulletProjectilePrefab: {fileID: 5942291838426562101, guid: 95f02b6977277a44080dfe2d86da97ea,
     type: 3}
   shootPointTransform: {fileID: 7231473717521262687}
+--- !u!114 &9192464485554707924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415751047658695637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9357502c4c8a3f648940287eabbbab28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8415751046801860689
 PrefabInstance:
   m_ObjectHideFlags: 0
