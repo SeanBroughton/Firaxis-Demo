@@ -159,5 +159,9 @@ public class ShootAction : BaseAction
         return targetSoldier;
     }
 
+    public int GetMaxShootDistance()
+    {
+        return maxShootDistance;
+    }
 
 }

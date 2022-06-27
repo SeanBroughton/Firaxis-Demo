@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LevelGrid : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class LevelGrid : MonoBehaviour
     public static LevelGrid Instance {get; private set;}
     [SerializeField] private Transform gridDebugObjectPrefab;
     private GridSystem gridSystem;
+    public event EventHandler OnAnySoldierMovedGridPosition;
 
     //created a singleton to stop duplicates of level grid
   private void Awake()
@@ -50,6 +52,8 @@ public class LevelGrid : MonoBehaviour
         RemoveSoldierAtGridPosition(fromGridPosition, soldier);
 
         AddSoldierAtGridPosition(toGridPosition, soldier);
+
+        OnAnySoldierMovedGridPosition?.Invoke(this, EventArgs.Empty);
     }
 
     //gets the world position of the soldier

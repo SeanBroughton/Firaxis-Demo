@@ -45,8 +45,9 @@ public class Soldier : MonoBehaviour
         if(newGridPosition != gridPosition)
         {
             //Unit changed Grid Position
-            LevelGrid.Instance.SoldierMovedGridPosition(this, gridPosition, newGridPosition);
+            GridPosition oldGridPosition = gridPosition;
             gridPosition = newGridPosition;
+            LevelGrid.Instance.SoldierMovedGridPosition(this, oldGridPosition, newGridPosition);
         }
         
     }
