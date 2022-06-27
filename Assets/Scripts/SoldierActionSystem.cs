@@ -137,7 +137,7 @@ public class SoldierActionSystem : MonoBehaviour
     {
         selectedSoldier = soldier;
 
-        SetSelectedAction(soldier.GetMoveAction());
+        SetSelectedAction(soldier.GetAction<MoveAction>());
 
         OnSelectedSoldierChange?.Invoke(this, EventArgs.Empty);
     }
