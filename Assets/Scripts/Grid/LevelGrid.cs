@@ -9,6 +9,11 @@ public class LevelGrid : MonoBehaviour
     public static LevelGrid Instance {get; private set;}
     [SerializeField] private Transform gridDebugObjectPrefab;
     private GridSystem<GridObject> gridSystem;
+
+    [SerializeField] private int width;
+    [SerializeField] private int height;
+    [SerializeField] private float cellSize;
+
     public event EventHandler OnAnySoldierMovedGridPosition;
 
     //created a singleton to stop duplicates of level grid
@@ -23,11 +28,15 @@ public class LevelGrid : MonoBehaviour
         
         Instance = this;
 
-        gridSystem = new GridSystem<GridObject>(10, 10, 2f, (GridSystem<GridObject> g, GridPosition gridPosition) =>  new GridObject(g, gridPosition));
+        gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g, GridPosition gridPosition) =>  new GridObject(g, gridPosition));
         //gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
-
     }
     
+    private void Start() 
+    {
+        Pathfinding.Instance.Setup(width, height, cellSize);
+    }
+
     //find the position of the soldier and marks it on the grid, then clears it when they move 
     public void AddSoldierAtGridPosition(GridPosition gridPosition, Soldier soldier)
     {

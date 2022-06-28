@@ -21,7 +21,6 @@ public class SoldierActionSystem : MonoBehaviour
     //singleton made to check for more than one SoldierActionSystem
     private void Awake() 
     {
-        if(TryHandleSoldierSelection()) return;
         if(Instance != null)
         {
             Debug.LogError("There is more than one SoldierActionSystem!" + transform + "-" + Instance);
