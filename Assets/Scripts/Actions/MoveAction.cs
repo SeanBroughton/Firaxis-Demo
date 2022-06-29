@@ -5,18 +5,12 @@ using System;
 
 public class MoveAction : BaseAction
 {
-    private Vector3 targetPosition;
+    private List<Vector3> positionList;
+    private int currentPositionIndex;
 
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
     [SerializeField] private int maxMoveDistance = 4;
-
-    //keeps Soldier from overlapping
-    protected override void Awake() 
-    {
-        base.Awake();
-        targetPosition = transform.position;
-    }
 
     private void Update() 
     {
@@ -24,12 +18,21 @@ public class MoveAction : BaseAction
         {
             return;
         }
+
+        Vector3 targetPosition = positionList[currentPositionIndex];
         
     //stopping distance stabilizes the soldier when moving and stopping at the new location
         
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
+        
+         //rotates the soldier to face moving direction
+        float rotateSpeed = 10f;
+        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
         
         float stoppingDistance = .1f;
+
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
             float moveSpeed = 4f;
@@ -37,23 +40,29 @@ public class MoveAction : BaseAction
         }
         else
         {  
-            OnStopMoving?.Invoke(this, EventArgs.Empty);
+            currentPositionIndex++;
+            if (currentPositionIndex >= positionList.Count)
+            {
+                 OnStopMoving?.Invoke(this, EventArgs.Empty);
 
-            ActionComplete();
+                ActionComplete();
 
+            }
         }
-
-         //rotates the soldier to face moving direction
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-
     }
 
     //creates the ability to move the soldier
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(soldier.GetGridPosition(), gridPosition, out int pathLength);
 
-        this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        currentPositionIndex = 0;
+        positionList = new List<Vector3>();
+
+        foreach (GridPosition pathGridPosition in pathGridPositionList)
+        {
+            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+        }
 
         OnStartMoving?.Invoke(this, EventArgs.Empty);
 
@@ -87,6 +96,23 @@ public class MoveAction : BaseAction
                 if (LevelGrid.Instance.HasAnySoldierOnGridPosition(testGridPosition))
                 {
                     //Grid position is already occupied with another soldier
+                    continue;
+                }
+
+                if(!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition))
+                {
+                    continue;
+                }
+
+                if(!Pathfinding.Instance.HasPath(soldierGridPosition, testGridPosition))
+                {
+                    continue;
+                }
+
+                int pathfindingDistanceMultiplier = 10;
+                if (Pathfinding.Instance.GetPathLength(soldierGridPosition, testGridPosition) > maxMoveDistance *pathfindingDistanceMultiplier)
+                {
+                    // Path length is too long
                     continue;
                 }
 

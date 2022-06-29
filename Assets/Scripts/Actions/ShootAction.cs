@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShootAction : BaseAction
 {
 
+    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
 
     public class OnShootEventArgs : EventArgs
@@ -20,6 +21,8 @@ public class ShootAction : BaseAction
         Shooting,
         Cooloff,
     }
+
+    [SerializeField] private LayerMask obstaclesLayerMask;
      private State state;
      private int maxShootDistance = 7;
      private float stateTimer;
@@ -81,6 +84,11 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
+        OnAnyShoot?.Invoke(this, new OnShootEventArgs {
+            targetSoldier = targetSoldier,
+            shootingSoldier = soldier
+        });
+        
         OnShoot?.Invoke(this, new OnShootEventArgs {
             targetSoldier = targetSoldier,
             shootingSoldier = soldier
@@ -137,6 +145,20 @@ public class ShootAction : BaseAction
                     //Both Soldiers are on the "Same Team"
                     continue;
                 }
+
+                Vector3 soldierWorldPosition = LevelGrid.Instance.GetWorldPosition(soldierGridPosition);
+                Vector3 shootDirection = (targetSoldier.GetWorldPosition() - soldierWorldPosition).normalized;
+                float soldierShoulderHeight = 1.7f;
+                if (Physics.Raycast(
+                    soldier.GetWorldPosition() + Vector3.up * soldierShoulderHeight,
+                    shootDirection,
+                    Vector3.Distance(soldierWorldPosition, targetSoldier.GetWorldPosition()),
+                    obstaclesLayerMask))
+                    {
+                        //Blocked from firing by a obstacle
+                        continue;
+                    }
+                    
 
                 validGridPositionList.Add(testGridPosition);
 

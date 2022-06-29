@@ -622,6 +622,7 @@ GameObject:
   - component: {fileID: 2896303151223166500}
   - component: {fileID: 9192464485554707924}
   - component: {fileID: -2110162449818565827}
+  - component: {fileID: -7652294260447629240}
   m_Layer: 7
   m_Name: Soldier
   m_TagString: Untagged
@@ -710,6 +711,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9536441508506ca47865e18572385678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstaclesLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &2896303151223166500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,6 +758,20 @@ MonoBehaviour:
   ragdollPrefab: {fileID: 8415751047658695639, guid: 4cbd05d90847f5f42ab6a49785c45362,
     type: 3}
   originalRootBone: {fileID: 8420434023011775243}
+--- !u!114 &-7652294260447629240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415751047658695637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81edda10d1fe9cf43a788d5012e3364f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grenadeProjectilePrefab: {fileID: 3772108055805674583, guid: 5a4394d92a86a0f4baa3252731346f48,
+    type: 3}
 --- !u!1001 &8415751046801860689
 PrefabInstance:
   m_ObjectHideFlags: 0

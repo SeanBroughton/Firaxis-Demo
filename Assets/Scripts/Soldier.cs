@@ -7,7 +7,7 @@ public class Soldier : MonoBehaviour
 {
 
     [SerializeField] private bool isEnemy;
-    private const int ACTION_POINTS_MAX = 2;
+    private const int ACTION_POINTS_MAX = 4;
     public static event EventHandler OnAnyActionPointsChange;
     public static event EventHandler OnAnySoldierSpawned;
     public static event EventHandler OnAnySoldierDead;
